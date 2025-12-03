@@ -62,38 +62,42 @@ def parse_cron_schedule(cron_string: str) -> dict:
 cron_kwargs = parse_cron_schedule(settings.beat_schedule_cron)
 
 celery_app.conf.beat_schedule = {
-    
-    "example-every-minute": {
-        "task": "scheduled_task_every_minute",
-        "schedule": crontab(minute="*/1"),
-        "options": {
-            "expires": 300,  
-        },
-    },
-    
-    "example-hourly": {
-        "task": "scheduled_task_hourly",
-        "schedule": crontab(minute=0, hour="*"),  
-    },
-    
-    "example-daily-midnight": {
-        "task": "scheduled_task_daily",
-        "schedule": crontab(minute=0, hour=0),  
-    },
-    
-    "example-twice-daily": {
-        "task": "scheduled_task_twice_daily",
-        "schedule": crontab(**cron_kwargs),  
-    },
-    
-    "example-weekly-monday": {
-        "task": "scheduled_task_weekly",
-        "schedule": crontab(minute=0, hour=9, day_of_week=1),  
-    },
-    
-    "example-every-5-minutes": {
-        "task": "scheduled_task_frequent",
-        "schedule": crontab(minute="*/5"),
+    # Other example tasks are commented out to avoid overloading the worker
+    # Uncomment them as needed for your use case
+    #
+    # "example-every-minute": {
+    #     "task": "scheduled_task_every_minute",
+    #     "schedule": crontab(minute="*/1"),
+    #     "options": {
+    #         "expires": 300,
+    #     },
+    # },
+    #
+    # "example-hourly": {
+    #     "task": "scheduled_task_hourly",
+    #     "schedule": crontab(minute=0, hour="*"),
+    # },
+    #
+    # "example-daily-midnight": {
+    #     "task": "scheduled_task_daily",
+    #     "schedule": crontab(minute=0, hour=0),
+    # },
+    #
+    # "example-weekly-monday": {
+    #     "task": "scheduled_task_weekly",
+    #     "schedule": crontab(minute=0, hour=9, day_of_week=1),
+    # },
+    #
+    # "example-every-5-minutes": {
+    #     "task": "scheduled_task_frequent",
+    #     "schedule": crontab(minute="*/5"),
+    # },
+    #
+
+    # Task using cron schedule from BEAT_SCHEDULE_CRON environment variable
+    "scheduled-task": {
+        "task": "scheduled_task",
+        "schedule": crontab(**cron_kwargs),
     },
 }
 
