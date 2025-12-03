@@ -10,9 +10,9 @@ logger = logging.getLogger(__name__)
 
 celery_app = Celery(
     "beat_scheduler",
-    broker=settings.get_broker_url(),
-    backend=settings.get_result_backend(),
-    include=["app.tasks"],  
+    broker=settings.redis_url,
+    backend=settings.redis_url,
+    include=["app.tasks"],
 )
 
 

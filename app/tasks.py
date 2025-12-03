@@ -7,15 +7,11 @@ from app.celery_config import celery_app
 
 logger = logging.getLogger(__name__)
 
-
 @celery_app.task(name="scheduled_task_every_minute")
 def scheduled_task_every_minute() -> Dict[str, Any]:
     logger.info("Running task: every minute")
 
     current_time = datetime.utcnow()
-
-    
-    
 
     return {
         "task": "scheduled_task_every_minute",
@@ -29,9 +25,6 @@ def scheduled_task_hourly() -> Dict[str, Any]:
     logger.info("Running task: hourly")
 
     current_time = datetime.utcnow()
-
-    
-    
 
     return {
         "task": "scheduled_task_hourly",
@@ -47,9 +40,6 @@ def scheduled_task_daily() -> Dict[str, Any]:
 
     current_time = datetime.utcnow()
 
-    
-    
-
     return {
         "task": "scheduled_task_daily",
         "executed_at": current_time.isoformat(),
@@ -64,9 +54,6 @@ def scheduled_task_twice_daily() -> Dict[str, Any]:
 
     current_time = datetime.utcnow()
 
-    
-    
-
     return {
         "task": "scheduled_task_twice_daily",
         "executed_at": current_time.isoformat(),
@@ -79,9 +66,6 @@ def scheduled_task_weekly() -> Dict[str, Any]:
     logger.info("Running task: weekly on Monday")
 
     current_time = datetime.utcnow()
-
-    
-    
 
     return {
         "task": "scheduled_task_weekly",
@@ -97,9 +81,6 @@ def scheduled_task_frequent() -> Dict[str, Any]:
 
     current_time = datetime.utcnow()
 
-    
-    
-
     return {
         "task": "scheduled_task_frequent",
         "executed_at": current_time.isoformat(),
@@ -111,9 +92,6 @@ def scheduled_task_frequent() -> Dict[str, Any]:
 def cleanup_old_results() -> Dict[str, Any]:
     logger.info("Running cleanup task")
 
-    
-    
-
     return {
         "task": "cleanup_old_results",
         "executed_at": datetime.utcnow().isoformat(),
@@ -124,9 +102,6 @@ def cleanup_old_results() -> Dict[str, Any]:
 @celery_app.task(name="send_notifications")
 def send_notifications() -> Dict[str, Any]:
     logger.info("Running notification task")
-
-    
-    
 
     return {
         "task": "send_notifications",
