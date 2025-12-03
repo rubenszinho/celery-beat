@@ -1,41 +1,8 @@
 # Celery Beat Scheduler Template
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/celery-beat)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/fastapi-celery-beat-worker-flower?referralCode=5oF91f&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
 Production-ready Celery Beat scheduler with flexible cron configuration and Railway deployment support.
-
-## Quick Start
-
-### Local Development with Docker
-
-```bash
-# Clone or copy this template
-cd celery-beat-template
-
-# Create env.example file
-cp env.example .env
-
-# Start services
-docker-compose up
-
-# Beat will start scheduling tasks
-```
-
-### Manual Setup
-
-```bash
-# Install dependencies
-pip install .
-
-# Or with dev dependencies
-pip install -e ".[dev]"
-
-# Start Redis (in separate terminal)
-redis-server
-
-# Start Celery Beat
-celery -A beat.celery_app beat --loglevel=info
-```
 
 ## Example Scheduled Tasks
 
@@ -87,71 +54,15 @@ Runs every 5 minutes
 schedule: crontab(minute="*/5")
 ```
 
-## Deploy to Railway
-
-### One-Click Deploy
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/celery-beat)
-
-### Manual Deployment
-
-1. **Add Redis to your Railway project**
-
-   ```
-   New → Database → Add Redis
-   ```
-
-2. **Deploy this service**
-
-   ```
-   New → GitHub Repo → Select this repository
-   ```
-
-3. **Set environment variables**
-
-   ```
-   REDIS_URL = ${{Redis.REDIS_URL}}
-   BEAT_SCHEDULE_CRON = 0 0,12 * * *
-   ```
-
-4. **Deploy!** Railway will automatically detect the Dockerfile
-
 ### Deploy with API and Worker
 
 For full functionality, deploy all three templates:
 
-1. FastAPI template (triggers tasks)
-2. Celery Worker template (processes tasks)
-3. This Beat template (schedules tasks)
+1. [FastAPI template](https://github.com/rubenszinho/celery-worker) (triggers tasks)
+2. [Celery Worker template](https://github.com/rubenszinho/celery-worker) (processes tasks)
+3. This Celery Beat template
 
 All should share the same Redis instance via `${{Redis.REDIS_URL}}`.
-
-## Environment Variables
-
-| Variable                | Required | Default                  | Description                 |
-| ----------------------- | -------- | ------------------------ | --------------------------- |
-| `REDIS_URL`             | Yes      | redis://localhost:6379/0 | Redis connection string     |
-| `CELERY_BROKER_URL`     | No       | Uses REDIS_URL           | Celery broker URL           |
-| `CELERY_RESULT_BACKEND` | No       | Uses REDIS_URL           | Celery result backend       |
-| `BEAT_SCHEDULE_CRON`    | No       | 0 0,12 \* \* \*          | Cron schedule for main task |
-
-## Project Structure
-
-```
-celery-beat-template/
-├── app/
-│   ├── __init__.py          # Package init
-│   ├── celery_config.py     # Celery + Beat configuration
-│   ├── config.py            # Environment configuration
-│   └── tasks.py             # Scheduled task definitions
-├── beat.py                  # Beat entrypoint
-├── Dockerfile               # Production container
-├── docker-compose.yml       # Local development
-├── pyproject.toml           # Python dependencies
-├── env.example              # Environment template
-├── railway.json             # Railway configuration
-└── README.md               # This file
-```
 
 ## Adding Custom Scheduled Tasks
 
@@ -321,10 +232,6 @@ docker-compose restart beat
 ## Production Checklist
 
 Set schedules, configure timezone, monitoring, Redis password, test in staging.
-
-## Related Templates
-
-[FastAPI Template](../fastapi-template) | [Celery Worker Template](../celery-worker-template)
 
 ## Best Practices
 
